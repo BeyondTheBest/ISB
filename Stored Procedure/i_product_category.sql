@@ -8,16 +8,16 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[i_product_category](@category_name nvarchar(50)
-									,@description nvarchar(max)
-									,@photo_location nvarchar(max)
-									,@created_by nvarchar(50)
-									,@created_date datetime
-									,@last_updated_by nvarchar(50)
-									,@last_updated_date datetime
-									,@Ret_Flag nvarchar(2) output
-									,@Ret_Msg nvarchar(200) output																		
-									)
+CREATE PROCEDURE [dbo].[i_product_category]	(@category_name nvarchar(50)
+						,@description nvarchar(max)
+						,@photo_location nvarchar(max)
+						,@created_by nvarchar(50)
+						,@created_date datetime
+						,@last_updated_by nvarchar(50)
+						,@last_updated_date datetime
+						,@Ret_Flag nvarchar(2) output
+						,@Ret_Msg nvarchar(200) output																		
+						)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
