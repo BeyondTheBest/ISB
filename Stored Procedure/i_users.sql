@@ -9,19 +9,19 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE PROCEDURE [dbo].[i_user](@fname nvarchar(50)
-							,@lname nvarchar(50)
-							,@phone nvarchar(50)
-							,@mobile numeric(18,0)
-							,@email nvarchar(50)
-							,@Address nvarchar(max)
-							,@created_by nvarchar(50)
-							,@created_date datetime
-							,@last_updated_by nvarchar(50)
-							,@last_updated_date datetime
-							,@RetFlag nvarchar(2) output
-							,@RetMsg nvarchar(200) output
-							)
+CREATE PROCEDURE [dbo].[i_user] (@fname nvarchar(50)
+				,@lname nvarchar(50)
+				,@phone nvarchar(50)
+				,@mobile numeric(18,0)
+				,@email nvarchar(50)
+				,@Address nvarchar(max)
+				,@created_by nvarchar(50)
+				,@created_date datetime
+				,@last_updated_by nvarchar(50)
+				,@last_updated_date datetime
+				,@RetFlag nvarchar(2) output
+				,@RetMsg nvarchar(200) output
+				)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
