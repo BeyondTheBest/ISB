@@ -8,17 +8,17 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[i_supplier](@contact_name nvarchar(50)
-							,@company_name nvarchar(50)
-							,@phone nvarchar(50)
-							,@email nvarchar(50)
-							,@created_by nvarchar(50)
-							,@created_date datetime
-							,@last_updated_by nvarchar(50)
-							,@last_updated_date datetime
-							,@RetFlag nvarchar(2) output
-							,@RetMsg nvarchar(200) output
-							)
+CREATE PROCEDURE [dbo].[i_supplier]	(@contact_name nvarchar(50)
+					,@company_name nvarchar(50)
+					,@phone nvarchar(50)
+					,@email nvarchar(50)
+					,@created_by nvarchar(50)
+					,@created_date datetime
+					,@last_updated_by nvarchar(50)
+					,@last_updated_date datetime
+					,@RetFlag nvarchar(2) output
+					,@RetMsg nvarchar(200) output
+					)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
