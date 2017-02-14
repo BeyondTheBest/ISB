@@ -28,7 +28,7 @@ BEGIN
 	SET NOCOUNT ON;
 	begin try
 	--if non register user cannot do order
-	if(select count(1) from customer where customer_first_name=@customer_fname and customer_last_name=@customer_lname and Phone=@customer_mobile) IS NULL
+	if(select count(1) from customer where customer_id=@customer_id) IS NULL
 		select @Ret_Flag='1',@Ret_Msg='Please Register'
 	else
 	begin
