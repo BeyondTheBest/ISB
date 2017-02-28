@@ -1,12 +1,13 @@
-USE [Ecommerce2]
+USE [ISB]
 GO
 
-/****** Object:  StoredProcedure [dbo].[customer_registration]    Script Date: 2/18/2017 7:18:32 PM ******/
+/****** Object:  StoredProcedure [dbo].[customer_registration]    Script Date: 2/28/2017 11:00:59 AM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 -- =============================================
 -- Author:		<Author,,Name>
@@ -39,11 +40,11 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 	begin try
-		if(select count(1) from customers where u_name=@user_name) IS NOT NULL
+		if not exists(select * from customers where u_name=@user_name)
 		begin
-			if (select count(1) from customers where customer_fname=@customer_fname and customer_mname=@customer_mname and customer_lname=@customer_lname and mobile=@mobile and mail=@mail) IS NOT NULL
+			if not exists(select * from customers where  mail=@mail)
 			begin
-				if(select count(1) from customers where mobile=@mobile) IS NOT NULL
+				if not exists(select * from customers where mobile=@mobile)
 				begin
 					insert into customers values(@customer_fname,@customer_mname,@customer_lname,@user_name,@password,@mobile,@phone,@mail,@address,@city,@state_name,@country,@zipcode,@created_by,@created_date,@last_updated_by,@last_updated_date);
 					select @Ret_Flag='0',@Ret_Msg='Regitration Successfully Completed'
@@ -55,7 +56,7 @@ BEGIN
 			end
 			else
 			begin
-				select @Ret_Flag='2',@Ret_Msg='Customer Already Registered' --if Customer already registered
+				select @Ret_Flag='2',@Ret_Msg='Mail Already Registered' --if Customer Mail Id already registered
 			end
 		end
 		else
@@ -69,8 +70,10 @@ BEGIN
 	if(@Ret_Flag='0')
 	begin 
 		commit transaction;
+		--print 'Registration Completed enjoy your Shopping'
 	end
 END
+
 
 GO
 
