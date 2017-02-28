@@ -1,30 +1,36 @@
 USE [ISB]
 GO
 
-/****** Object:  Table [dbo].[customer]    Script Date: 2/13/2017 4:17:21 PM ******/
+/****** Object:  Table [dbo].[customers]    Script Date: 2/28/2017 10:59:46 AM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [dbo].[customer](
-	[customer_id] [int] IDENTITY(1000,1) NOT NULL,
-	[customer_first_name] [nvarchar](50) NULL,
-	[customer_last_name] [nvarchar](50) NULL,
-	[Phone] [numeric](10, 0) NULL,
-	[mail_id] [nvarchar](50) NULL,
-	[Address] [nvarchar](max) NULL,
+CREATE TABLE [dbo].[customers](
+	[customer_id] [int] IDENTITY(1,1) NOT NULL,
+	[customer_fname] [nvarchar](50) NULL,
+	[customer_mname] [nvarchar](50) NULL,
+	[customer_lname] [nvarchar](50) NULL,
+	[u_name] [nvarchar](50) NULL,
+	[password] [nvarchar](50) NULL,
+	[mobile] [numeric](18, 0) NULL,
+	[phone] [nvarchar](20) NULL,
+	[mail] [nvarchar](50) NOT NULL,
+	[address] [nvarchar](100) NULL,
+	[city] [nvarchar](50) NULL,
+	[state_name] [nvarchar](50) NULL,
+	[country] [nvarchar](50) NULL,
+	[zipcode] [numeric](10, 0) NULL,
 	[created_by] [nvarchar](50) NULL,
 	[created_date] [datetime] NULL,
 	[last_updated_by] [nvarchar](50) NULL,
-	[last_updated_date] [datetime] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[customer_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+	[last_updated_date] [datetime] NULL
+) ON [PRIMARY]
 
 GO
+
+
 
 
