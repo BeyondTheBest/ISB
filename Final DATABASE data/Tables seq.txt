@@ -1,0 +1,548 @@
+
+/****** Object:  Table [dbo].[Employees]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Employees](
+	[Emp_Id] [int] identity(100,1) primary key,
+	[Emp_Type_Id] [int] ,
+	[Emp_Name] [nvarchar](50) NULL,
+	[Gender] [nvarchar](10) NULL,
+	[Educationlevel] [nvarchar](100) NULL,
+	[Job] [nvarchar](50) NULL,
+	[Hiredate] [date] NULL,
+	[Dateofbirth] [date] NULL,
+	[Mobile_No] [numeric](10, 0) NULL,
+	[Telephone] [nvarchar](20) NULL,
+	[Email] [nvarchar](50) NULL,
+	[Address] [nvarchar](100) NULL,
+	[City] [nvarchar](50) NULL,
+	[Pincode] [numeric](10, 0) NULL,
+	[Salary] [money] NULL,
+	[Bonus] [money] NULL,
+	[Commission] [money] NULL,
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Last_Updated_By] [int] references Employees(Emp_Id) NULL,
+	[Last_Updated_Date] [datetime] NULL,
+	[Active_Flag] [nvarchar](1) default('1')
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Employee_Type_Master]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Employee_Type_Master](
+	[Emp_Type_Id] [int] IDENTITY(10,1) primary key,
+	[Description] [nvarchar](50) NULL,
+	[Active_Flag] [nvarchar](50) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE Employees
+ADD FOREIGN KEY (Emp_Type_Id) REFERENCES Employee_Type_Master(Emp_Type_Id)
+
+/****** Object:  Table [dbo].[Customers]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Customers](
+	[Customer_Id] [int] Identity(1000,1) primary key,
+	[Customer_FName] [nvarchar](50) NULL,
+	[Customer_MName] [nvarchar](50) NULL,
+	[Customer_LName] [nvarchar](50) NULL,
+	[User_Name] [nvarchar](50) NOT NULL,
+	[Password] [nvarchar](50) NOT NULL,
+	[Mobile] [numeric](18, 0) NULL,
+	[Phone] [nvarchar](20) NULL,
+	[Mail] [nvarchar](50) NOT NULL,
+	[Address] [nvarchar](100) NULL,
+	[City] [nvarchar](50) NULL,
+	[State_Name] [nvarchar](50) NULL,
+	[Country] [nvarchar](50) NULL,
+	[Zipcode] [numeric](10, 0) NULL,
+	[Created_By] [nvarchar](50) NULL,
+	[Created_Date] [datetime] Default(getdate()),
+	[Last_Updated_By] [nvarchar](50) NULL,
+	[Last_Updated_Date] [datetime] NULL,
+	[Active_Flag] [nvarchar](1) default('1')
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[MaterialSupplyCompany]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MaterialSupplyCompany](
+	[Company_Id] [int] identity(100,1) primary key,
+	[Company_Name] [nvarchar](50) NOT NULL,
+	[Contact_Person] [nvarchar](50) NULL,
+	[Mobile] [numeric](10, 0) NULL,
+	[Mail] [nvarchar](50) NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[updated_By] [int] references Employees(Emp_Id),
+	[updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Product_Category]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Product_Category](
+	[Category_Id] [int] IDENTITY(10,1) primary key,
+	[Category_Name] [nvarchar](50) NULL,
+	[Description] [nvarchar](max) NULL,
+	[Photo_Location] [nvarchar](max) NULL,
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL,
+	[Active_Flag] [nvarchar](1) default('1')
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Product_Master]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Product_Master](
+	[Product_Id] [int] identity(1,1) primary key,
+	[Category_Id] [int] references Product_Category(Category_Id),
+	[Product_Name] [nvarchar](100) NULL,
+	[Product_Description] [nvarchar](200) NULL,
+	[If_Product_Weight] [numeric](18, 3) NULL,
+	[If_Product_Colour] [nvarchar](50) NULL,
+	[Product_Price] [money] NULL,
+	[Pieces_Per_Unit] [int] NULL,
+	[Price_Per_Unit] [money] NULL,
+	[Manufactured_By] [nvarchar](50) NULL,
+	[Manufactured_Date] [datetime] NULL,
+	[Expiry_Date] [datetime] NULL,
+	[Quantities_In_Store] [int] NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] int references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Invoice_Master]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Invoice_Master](
+	[Invoice_Id] [int] identity(1000,1) primary key,
+	[Dispatch_To] [nvarchar](50) NULL,
+	[Supplier_Id] [int] NULL,
+	[Total_Amount] [money] NULL,
+	[Invoice_Copy_Image_Location] [nvarchar](50) NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Inward_Master]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Inward_Master](
+	[Inward_SNo] [int] identity(1000,1) primary key,
+	[Invoice_Id] [int]  references Invoice_Master(Invoice_Id),
+	[Material_Type] [nvarchar](50) NULL,
+	[Product_Id] [int] references Product_Master(Product_Id),
+	[Quantity] [nvarchar](50) NULL,
+	[If_Weight] [numeric](18, 0) NULL,
+	[If_Coloured] [nvarchar](50) NULL,
+	[Unit] [nvarchar](50) NULL,
+	[Rate] [money] NULL,
+	[Amount] [money] NULL,
+	[Transport_Ttype_Id] [int] NULL,
+	[Company_Id] [int] NULL,
+	[Inward_By] [int] NULL,
+	[Inward_Date] [datetime] NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Invoice_Bill]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Invoice_Bill](
+	[Invoice_Bill_Id] [int] identity(1000,1) primary key,
+	[Invoice_Id] [int] references Invoice_Master(Invoice_Id),
+	[Total_Amount] [money] NULL,
+	[Vat_Amount] [money] NULL,
+	[Grand_Total] [money] NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Customer_Order]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Customer_Order](
+	[Order_Id] [int] identity(1000,1) primary key,
+	[Customer_Id] [int] references Customers(Customer_Id),
+	[Active_Flag] [nvarchar](1) default('1')
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Cart_Master]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Cart_Master](
+	[Cart_Id] [int] identity(1000,1) primary key,
+	[Order_Id] [int] references Customer_Order(Order_Id),
+	[Product_Id] [int] references Product_Master(Product_Id),
+	[Product_Qty] [int] NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Order_Date] [datetime] default(getdate())
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Bill_Master]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Bill_Master](
+	[Bill_Id] [int] identity(1000,1) primary key,
+	[Order_Id] [int] references Customer_Order(Order_Id),
+	[Customer_Id] [int] references Customers(Customer_Id),
+	[Taxes_Amount] [money] NULL,
+	[Bill_Amount] [money] NULL,
+	[Bill_Date] [datetime] NULL,
+	[Active_Flag] [nvarchar](1) Default ('1'),
+	[Payment_Confirmation_Flag] [nvarchar](1) NULL,
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Shipper_Master]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Shipper_Master](
+	[Shipper_Id] [int] identity(100,1) primary key,
+	[Shipper_Name] [nvarchar](50) NULL,
+	[Address] [nvarchar](100) NULL,
+	[City] [nvarchar](50) NULL,
+	[Zipcode] [numeric](18, 0) NULL,
+	[Contact_Person] [nvarchar](50) NULL,
+	[Mobile] [numeric](10, 0) NULL,
+	[Mail_Id] [nvarchar](50) NULL,
+	[FAX] [nvarchar](50) NULL,
+	[Licence_Copy] [nvarchar](max) NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Order_To_Shipper]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Order_To_Shipper](
+	[Order_To_Shipper_Id] [int] Identity(1000,1) primary key,
+	[Order_Id] [int] references Customer_Order(Order_Id),
+	[Shipper_Id] [int] references Shipper_Master(Shipper_Id),
+	[Assigned_By] [int] references Employees(Emp_Id),
+	[Assigned_Date] [datetime] NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Dispatched_Date] [datetime] NULL,
+	[Expected_Delivery_Date] [datetime] NULL,
+	[Delivery_Confirmation_Flag] [nvarchar](1) default('0'),
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Taxes_Master]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Taxes_Master](
+	[Tax_Id] [int] identity(1,1) primary key,
+	[Description] [nvarchar](50) NULL,
+	[Percentage] [nvarchar](20) NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Tax_Order]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tax_Order](
+	[Tax_Order_Id] [int] identity(1,1) primary key,
+	[Tax_Id] [int] references Taxes_Master(Tax_Id),
+	[Order_Id] [int] references Customer_Order(Order_Id),
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Payment_Type_Master]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Payment_Type_Master](
+	[Payment_Method_Type_Id] [int] identity(100,1),
+	[Payment_Type] [nvarchar](50) NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] NULL,
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Payment_Confirmation]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Payment_Confirmation](
+	[Id] [int] identity(1,1) primary key,
+	[Order_Id] [int]  references Customer_Order(Order_Id),
+	[Payment_Mode_Id] [int] NULL,
+	[Paid_Amount] [money] NULL,
+	[Payment_Refference_Number] [nvarchar](50) NULL,
+	[Date_Of_Payment] [datetime] NULL,
+	[Payment_Status_Flag] [nvarchar](1) NULL,
+	[Active_Flag] [nvarchar](1) default('1')
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Payment_By_Internet_Banking]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Payment_By_Internet_Banking](
+	[Id] [int] identity(1,1) primary key,
+	[Bank_Name] [nvarchar](50) NULL,
+	[URL] [nvarchar](max) NULL,
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL,
+	Active_Flag nvarchar(1) default('1')
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Payment_By_Card]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Payment_By_Card](
+	[Id] [int] identity(1,1) primary key,
+	[Order_Id] [int]  references Customer_Order(Order_Id),
+	[Card_No] [numeric](16, 0) NULL,
+	[Name_On_Card] [nvarchar](100) NULL,
+	[Card_Type_Name] [nvarchar](50) NULL,
+	[Month_Valid] [int] NULL,
+	[Year_Valid] [int] NULL,
+	[CVV] [int] NULL,
+	[Pin] [numeric](18, 0) NULL,
+	[OTP] [nvarchar](20) NULL,
+	[Active_Flag] [nvarchar](1) default('1')
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Transportation]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Transportation](
+	[Transportation_Id] [int] identity(1000,1) primary key,
+	[Transport_type] [nvarchar](50) NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Updated_By] [int] references Employees(Emp_Id),
+	[Updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Transport_By_Hand]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Transport_By_Hand](
+	[Transporter_Id] [int] identity(100,1) primary key,
+	[Person_Name] [nvarchar](50) NULL,
+	[Mobile] [numeric](10, 0) NULL,
+	[Photo] [nvarchar](max) NULL,
+	[Identity_Proff] [nvarchar](50) NULL,
+	[Identity_Proff_Id] [nvarchar](50) NULL,
+	[Active_Flag] [nvarchar](1) Default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Updated_By] [int] references Employees(Emp_Id),
+	[Updated_Date] [datetime] NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Courier_Master]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Courier_Master](
+	[Courier_Id] [int] identity(100,1) primary key,
+	[Courier_Name] [nvarchar](50) NULL,
+	[Contact_Person] [nvarchar](50) NULL,
+	[Mobile] [numeric](10, 0) NULL,
+	[Mail] [nvarchar](50) NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate())
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Transport_By_Courier]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Transport_By_Courier](
+	[Courier_SNo] [int] identity(100,1),
+	[Courier_Id] [int] references Courier_Master(Courier_Id),
+	[POD_No] [nvarchar](50) NULL,
+	[Courier_Weight] [numeric](18, 3) NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Updated_By] [int] references Employees(Emp_Id),
+	[Updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Vehicle_Type_Master]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Vehicle_Type_Master](
+	[Vehicle_Type_Id] [int] identity(100,1) primary key,
+	[Description] [nvarchar](50) NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Updated_By] [int] references Employees(Emp_Id),
+	[Updated_Date] [int] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Transport_By_Vehicle]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Transport_By_Vehicle](
+	[Transport_Vehicle_Id] [int] identity(100,1) primary key,
+	[Transport_Vehicle_Type] [int] references Vehicle_Type_Master(Vehicle_Type_Id),
+	[Vehicle_Number] [nvarchar](20) NULL,
+	[LR_Number] [nvarchar](50) NULL,
+	[Driver_Name] [nvarchar](50) NULL,
+	[Mobile] [numeric](10, 0) NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] default(getdate()),
+	[Updated_By] [int] references Employees(Emp_Id),
+	[Updated_Date] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Delivery_Confirmation]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Delivery_Confirmation](
+	[SNo] [int] NULL,
+	[Order_To_Shipper_Id] [int] NULL,
+	[Delivery_Person_Name] [nvarchar](50) NULL,
+	[If_Delivery_Boy_Id] [int] NULL,
+	[Received_By] [nvarchar](50) NULL,
+	[Received_Date] [datetime] NULL,
+	[If_Orthers_Received_Relation] [nvarchar](50) NULL,
+	[Review_From_Customer] [nvarchar](100) NULL,
+	[Active_Flag] [nvarchar](1) default('1'),
+	[Added_By] [int] references Employees(Emp_Id),
+	[Added_Date] [datetime] NULL,
+	[Last_Updated_By] [int] references Employees(Emp_Id),
+	[Last_Updated_Date] [datetime] NULL,
+	[Delivery_Status] [nvarchar](50) NULL
+) ON [PRIMARY]
+
+GO
+
+/****** Object:  View [dbo].[products_in_cart]    Script Date: 4/4/2017 3:25:22 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create view [dbo].[products_in_cart]
+as
+select c.Order_Id,c.Product_Id,p.Product_Price from Product_Master p,Cart_Master c
+					where  c.Product_Id=p.Product_Id
+GO
